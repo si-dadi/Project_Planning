@@ -1,0 +1,10 @@
+/* Content2.css */
+.custom-calendar-container .react-calendar {
+    background-color: #F2F2F2;
+    border-radius: 15px;
+    width: 70%;
+    height: fit-content;
+    font-size: small;
+    word-spacing: 0%;
+    background-color: #f1eaea;
+  }

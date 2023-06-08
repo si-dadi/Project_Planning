@@ -1,0 +1,23 @@
+[
+  {
+    "id": 1,
+    "name": "CSIR Projects",
+    "progress": 20,
+    "daysLeft": 5,
+    "totalCost": 100000
+  },
+  {
+    "id": 2,
+    "name": "Sponsored Projects",
+    "progress": 75,
+    "daysLeft": 1,
+    "totalCost": 50000
+  },
+  {
+    "id": 3,
+    "name": "Industry Projects",
+    "progress": 30,
+    "daysLeft": 7,
+    "totalCost": 150000
+  }
+]

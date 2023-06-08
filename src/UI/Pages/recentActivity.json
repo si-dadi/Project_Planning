@@ -1,0 +1,24 @@
+[
+    {
+      "title": "Activity 1",
+      "subtitle": {
+        "date": "2023-06-01",
+        "time": "09:30 AM"
+      }
+    },
+    {
+      "title": "Activity 2",
+      "subtitle": {
+        "date": "2023-06-02",
+        "time": "02:45 PM"
+      }
+    },
+    {
+      "title": "Activity 3",
+      "subtitle": {
+        "date": "2023-06-03",
+        "time": "11:15 AM"
+      }
+    }
+  ]
+  

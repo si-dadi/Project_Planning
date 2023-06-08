@@ -1,0 +1,21 @@
+body {
+  margin: 0;
+  font-family: 'Poppins';
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+@font-face {
+  font-family: 'Poppins';
+  src: url('./assets/fonts/poppins/Poppins-Regular.ttf') format('truetype');
+  /* Add additional font formats if necessary */
+}
+
+code {
+  font-family: 'Poppins'
+}
+
+
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;

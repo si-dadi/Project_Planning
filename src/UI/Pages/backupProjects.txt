@@ -1,0 +1,1074 @@
+import React, { useState } from "react";
+
+class Project {
+  constructor() {
+    this.projectTitle = "";
+    this.projectNo = "";
+    this.projectInvestigator = "";
+    this.coPI = "";
+    this.teamMembers = [];
+    this.objectives = "";
+    this.timeline = "";
+    this.resourcesRequired = {
+      equipment: [
+        {
+          name: "",
+          cost: "",
+          gteRequired: "",
+          throughGeM: "",
+          year1: "",
+          year2: "",
+          year3: "",
+          indentingDate: "",
+          indenter: "",
+          indentCost: "",
+          gteProposalDate: "",
+          gteReceivedDate: "",
+          equipmentReceived: "",
+          inventoryDBUpdated: "",
+        },
+      ],
+      consumables: [
+        {
+          name: "",
+          cost: "",
+          gteRequired: "",
+          throughGeM: "",
+          year1: "",
+          year2: "",
+          year3: "",
+          indentingDate: "",
+          indenter: "",
+          indentCost: "",
+          gteProposalDate: "",
+          gteReceivedDate: "",
+          equipmentReceived: "",
+        },
+      ],
+      services: [
+        {
+          name: "",
+          cost: "",
+          gteRequired: "",
+          throughGeM: "",
+          year1: "",
+          year2: "",
+          year3: "",
+          indentingDate: "",
+          indenter: "",
+          indentCost: "",
+          gteProposalDate: "",
+          gteReceivedDate: "",
+          equipmentReceived: "",
+        },
+      ],
+      works: [
+        {
+          name: "",
+          cost: "",
+          gteRequired: "",
+          throughGeM: "",
+          year1: "",
+          year2: "",
+          year3: "",
+          indentingDate: "",
+          indenter: "",
+          indentCost: "",
+          gteProposalDate: "",
+          gteReceivedDate: "",
+          equipmentReceived: "",
+        },
+      ],
+    };
+    this.manpower = {
+      proposedRequirement: {
+        "PA-I": {
+          techHR: "",
+          level: "",
+          cost: "",
+          justification: "",
+          year1: "",
+          year2: "",
+          year3: "",
+        },
+        "PA-II": {
+          techHR: "",
+          level: "",
+          cost: "",
+          justification: "",
+          year1: "",
+          year2: "",
+          year3: "",
+        },
+        "PA-III": {
+          techHR: "",
+          level: "",
+          cost: "",
+          justification: "",
+          year1: "",
+          year2: "",
+          year3: "",
+        },
+      },
+      interviewDate: "",
+      candidateName: "",
+      joiningDate: "",
+      leavingDate: "",
+    };
+    this.budget = {
+      nonRecurring: {
+        equipment: "",
+        works: "",
+        subTotal: "",
+      },
+      recurring: {
+        travel: "",
+        consumable: "",
+        contingency: "",
+        ORE: "",
+        subTotal: "",
+      },
+      total: "",
+    };
+  }
+}
+
+const AddProject = () => {
+  const [project, setProject] = useState(new Project());
+
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    if (name === "teamMembers" || name === "budget") {
+      const newValue =
+        name === "teamMembers" ? value.split("\n") : parseFloat(value);
+      setProject((prevProject) => ({
+        ...prevProject,
+        [name]: newValue,
+      }));
+    } else {
+      setProject((prevProject) => ({
+        ...prevProject,
+        [name]: value,
+      }));
+    }
+  };
+
+  const handleEquipmentChange = (e, index) => {
+    const { name, value } = e.target;
+    setProject((prevProject) => {
+      const updatedEquipment = [...prevProject.resourcesRequired.equipment];
+      updatedEquipment[index][name] = value;
+      return {
+        ...prevProject,
+        resourcesRequired: {
+          ...prevProject.resourcesRequired,
+          equipment: updatedEquipment,
+        },
+      };
+    });
+  };
+
+  const handleConsumableChange = (e, index) => {
+    const { name, value } = e.target;
+    setProject((prevProject) => {
+      const updatedConsumables = [...prevProject.resourcesRequired.consumables];
+      updatedConsumables[index][name] = value;
+      return {
+        ...prevProject,
+        resourcesRequired: {
+          ...prevProject.resourcesRequired,
+          consumables: updatedConsumables,
+        },
+      };
+    });
+  };
+
+  const handleServiceChange = (e, index) => {
+    const { name, value } = e.target;
+    setProject((prevProject) => {
+      const updatedServices = [...prevProject.resourcesRequired.services];
+      updatedServices[index][name] = value;
+      return {
+        ...prevProject,
+        resourcesRequired: {
+          ...prevProject.resourcesRequired,
+          services: updatedServices,
+        },
+      };
+    });
+  };
+
+  const handleWorkChange = (e, index) => {
+    const { name, value } = e.target;
+    setProject((prevProject) => {
+      const updatedWorks = [...prevProject.resourcesRequired.works];
+      updatedWorks[index][name] = value;
+      return {
+        ...prevProject,
+        resourcesRequired: {
+          ...prevProject.resourcesRequired,
+          works: updatedWorks,
+        },
+      };
+    });
+  };
+
+  const [manpowerFields, setManpowerFields] = useState([]);
+
+  // Function to handle adding a new manpower field
+  const addManpowerField = () => {
+    setManpowerFields([
+      ...manpowerFields,
+      { name: "", cost: "", gteRequired: "" },
+    ]);
+  };
+
+  // Function to handle changing the values of manpower fields
+  const handleManpowerChange = (index, field, value) => {
+    const updatedFields = [...manpowerFields];
+    updatedFields[index][field] = value;
+    setManpowerFields(updatedFields);
+  };
+
+  // const handleProposedRequirementChange = (e, level) => {
+  //   const { name, value } = e.target;
+  //   setProject((prevProject) => ({
+  //     ...prevProject,
+  //     manpower: {
+  //       ...prevProject.manpower,
+  //       proposedRequirement: {
+  //         ...prevProject.manpower.proposedRequirement,
+  //         [level]: {
+  //           ...prevProject.manpower.proposedRequirement[level],
+  //           [name]: value,
+  //         },
+  //       },
+  //     },
+  //   }));
+  // };
+
+  const handleBudgetChange = (e) => {
+    const { name, value } = e.target;
+    setProject((prevProject) => ({
+      ...prevProject,
+      budget: {
+        ...prevProject.budget,
+        nonRecurring: {
+          ...prevProject.budget.nonRecurring,
+          [name]: value,
+        },
+        recurring: {
+          ...prevProject.budget.recurring,
+          [name]: value,
+        },
+      },
+    }));
+  };
+
+  const [formSubmitted, setFormSubmitted] = useState(false);
+
+  const handleSubmit = async (event) => {
+    event.preventDefault();
+
+    if (formSubmitted) {
+      console.log("Form has already been submitted.");
+      return;
+    }
+
+    // Set the flag to true to prevent multiple submissions
+    setFormSubmitted(true);
+
+    // Get the form data
+    const formData = new FormData(event.target);
+
+    // Convert the form data to JSON
+    const jsonData = JSON.stringify(Object.fromEntries(formData));
+
+    try {
+      // Set up the fetch request
+      const url = "http://localhost:5984/projects_pme";
+      const headers = new Headers();
+      headers.append("Content-Type", "application/json");
+      headers.append(
+        "Authorization",
+        "Basic " + btoa("shobhan:ilovenaSa9!") // Replace with your actual username and password
+      );
+
+      const response = await fetch(url, {
+        method: "POST",
+        headers: headers,
+        body: jsonData,
+      });
+
+      if (response.ok) {
+        alert("Data submitted successfully!");
+        window.location.reload();
+      } else {
+        alert(
+          "An error occurred while submitting data:",
+          response.status,
+          response.statusText
+        );
+      }
+    } catch (error) {
+      alert("An error occurred while submitting data:", error);
+    }
+  };
+  // const form = document.getElementById("myForm");
+  // if (form) {
+  //   form.addEventListener('submit', handleSubmit);
+  // }
+  // ... previous code ...
+
+  // Event handler for adding equipment
+  const addEquipment = () => {
+    setProject((prevProject) => {
+      const newEquipment = {
+        name: "",
+        cost: "",
+        gteRequired: "",
+        throughGem: "",
+        year1: "",
+        year2: "",
+        year3: "",
+        indentingDate: "",
+        indenter: "",
+        indentCost: "",
+        gteProposalDate: "",
+        gteReceivedDate: "",
+        equipmentReceived: "",
+        inventoryDBUpdated: "",
+      };
+
+      return {
+        ...prevProject,
+        resourcesRequired: {
+          ...prevProject.resourcesRequired,
+          equipment: [...prevProject.resourcesRequired.equipment, newEquipment],
+        },
+      };
+    });
+  };
+
+  // Event handler for adding consumables
+  const addConsumable = () => {
+    setProject((prevProject) => {
+      const newConsumable = {
+        name: "",
+        cost: "",
+        gteRequired: "",
+        throughGem: "",
+        year1: "",
+        year2: "",
+        year3: "",
+        indentingDate: "",
+        indenter: "",
+        indentCost: "",
+        gteProposalDate: "",
+        gteReceivedDate: "",
+        equipmentReceived: "",
+      };
+
+      return {
+        ...prevProject,
+        resourcesRequired: {
+          ...prevProject.resourcesRequired,
+          consumables: [
+            ...prevProject.resourcesRequired.consumables,
+            newConsumable,
+          ],
+        },
+      };
+    });
+  };
+
+  // Event handler for adding services
+  const addService = () => {
+    setProject((prevProject) => {
+      const newService = {
+        name: "",
+        cost: "",
+        gteRequired: "",
+        throughGem: "",
+        year1: "",
+        year2: "",
+        year3: "",
+        indentingDate: "",
+        indenter: "",
+        indentCost: "",
+        gteProposalDate: "",
+        gteReceivedDate: "",
+        equipmentReceived: "",
+      };
+
+      return {
+        ...prevProject,
+        resourcesRequired: {
+          ...prevProject.resourcesRequired,
+          services: [...prevProject.resourcesRequired.services, newService],
+        },
+      };
+    });
+  };
+
+  // Event handler for adding works
+  const addWork = () => {
+    setProject((prevProject) => {
+      const newWork = {
+        name: "",
+        cost: "",
+        gteRequired: "",
+        throughGem: "",
+        year1: "",
+        year2: "",
+        year3: "",
+        indentingDate: "",
+        indenter: "",
+        indentCost: "",
+        gteProposalDate: "",
+        gteReceivedDate: "",
+        equipmentReceived: "",
+      };
+
+      return {
+        ...prevProject,
+        resourcesRequired: {
+          ...prevProject.resourcesRequired,
+          works: [...prevProject.resourcesRequired.works, newWork],
+        },
+      };
+    });
+  };
+
+  return (
+    <div className="mt-8 flex flex-col items-center">
+      <h2 className="text-2xl font-bold mb-8 flex flex-row mx-auto">
+        Add New Project
+      </h2>
+      <form onSubmit={handleSubmit} id="myForm">
+        <div className="mb-8 flex flex-row mx-auto">
+          <label className="flex flex-col flex-1 mb-4 mx-6">
+            <span className="font-bold">Project Title:</span>
+            <input
+              type="text"
+              name="projectTitle"
+              value={project.projectTitle}
+              onChange={handleChange}
+              className="mt-1 p-2 border border-gray-300 rounded-md"
+            />
+          </label>
+          <label className="flex flex-col">
+            <span className="font-bold">Project No.:</span>
+            <input
+              type="text"
+              name="projectNo"
+              value={project.projectNo}
+              onChange={handleChange}
+              className="mt-1 p-2 border border-gray-300 rounded-md"
+            />
+          </label>
+        </div>
+
+        <div className="mb-8 flex flex-row mx-auto ">
+          {/* Project Investigator */}
+          <div className="mb-8 flex-1 mx-4">
+            <label className="flex flex-col">
+              <span className="font-bold">Project Investigator:</span>
+              <input
+                type="text"
+                name="projectInvestigator"
+                value={project.projectInvestigator}
+                onChange={handleChange}
+                className="mt-1 p-2 border border-gray-300 rounded-md"
+              />
+            </label>
+          </div>
+          {/* CO-PI */}
+          <div className="mb-8">
+            <label className="flex flex-col">
+              <span className="font-bold">CO-PI:</span>
+              <input
+                type="text"
+                name="coPI"
+                value={project.coPI}
+                onChange={handleChange}
+                className="mt-1 p-2 border border-gray-300 rounded-md"
+              />
+            </label>
+          </div>
+        </div>
+        {/* Team Members */}
+        <div className="mb-8">
+          <label className="flex flex-col">
+            <span className="font-bold">Team Members:</span>
+            <textarea
+              name="teamMembers"
+              value={project.teamMembers.join("\n")}
+              onChange={handleChange}
+              className="mt-1 p-2 border border-gray-300 rounded-md"
+            ></textarea>
+          </label>
+        </div>
+        {/* Objectives */}
+        <div className="mb-8">
+          <label className="flex flex-col">
+            <span className="font-bold">Objectives:</span>
+            <textarea
+              name="objectives"
+              value={project.objectives}
+              onChange={handleChange}
+              className="mt-1 p-2 border border-gray-300 rounded-md"
+            ></textarea>
+          </label>
+        </div>
+        {/* Timeline */}
+        <div className="mb-8">
+          <label className="flex flex-col">
+            <span className="font-bold">Timeline (in Months):</span>
+            <input
+              type="text"
+              name="timeline"
+              value={project.timeline}
+              onChange={handleChange}
+              className="mt-1 p-2 border border-gray-300 rounded-md"
+            />
+          </label>
+        </div>
+        {/* Resources Required */}
+        <div className="mb-8">
+          <h4 className="text-lg font-bold mb-4">Resources Required</h4>
+
+          {/* Equipment Required */}
+          <div className="mb-6">
+            <h5 className="text-md font-bold mb-2">Equipment Required</h5>
+            {project.resourcesRequired.equipment.map((equipment, index) => (
+              <div key={index} className="flex mb-2 flex-col items-center my-4">
+                <h5>Number {index+1}</h5>
+                <div className="flex flex-row mb-2">
+                  <input
+                    type="text"
+                    name="equipmentName"
+                    value={equipment.equipmentName}
+                    onChange={(e) => handleEquipmentChange(e, index)}
+                    className="mt-1 p-2 border border-gray-300 rounded-md w-1/2 mr-2"
+                    placeholder="Name of Equipment"
+                  />
+                  <input
+                    type="text"
+                    name="equipmentCost"
+                    value={equipment.equipmentCost}
+                    onChange={(e) => handleEquipmentChange(e, index)}
+                    className="mt-1 p-2 border border-gray-300 rounded-md w-1/2"
+                    placeholder="Cost"
+                  />
+                </div>
+                <div className="flex flex-row mx-4 items-center">
+                    <input
+                      type="text"
+                      name="gteRequired"
+                      placeholder="GTE Required"
+                      checked={equipment.gteRequired}
+                      onChange={(e) => handleEquipmentChange(e, index)}
+                      className="mt-1 p-2 border border-gray-300 rounded-md w-[1/8]"
+                    />
+                    <input
+                      type="text"
+                      name="throughGeM"
+                      placeholder="Through GeM"
+                      checked={equipment.throughGeM}
+                      onChange={(e) => handleEquipmentChange(e, index)}
+                      className="mt-1 p-2 border border-gray-300 rounded-md w-[1/8]"
+                    />
+                  <input
+                    type="text"
+                    name="year1"
+                    value={equipment.year1}
+                    onChange={(e) => handleEquipmentChange(e, index)}
+                    className="mt-1 p-2 border border-gray-300 rounded-md w-[1/8]"
+                    placeholder="Year 1"
+                  />
+                  <input
+                    type="text"
+                    name="year2"
+                    value={equipment.year2}
+                    onChange={(e) => handleEquipmentChange(e, index)}
+                    className="mt-1 p-2 border border-gray-300 rounded-md w-[1/8]"
+                    placeholder="Year 2"
+                  />
+                  <input
+                    type="text"
+                    name="year3"
+                    value={equipment.year3}
+                    onChange={(e) => handleEquipmentChange(e, index)}
+                    className="mt-1 p-2 border border-gray-300 rounded-md w-[1/8]"
+                    placeholder="Year 3"
+                  />
+                </div>
+              </div>
+            ))}
+            <button
+              type="button"
+              onClick={addEquipment}
+              className="px-4 py-2 bg-blue-600 text-white rounded-md"
+            >
+              Add Equipment
+            </button>
+          </div>
+
+          {/* Consumables */}
+          <div className="mb-6">
+            <h5 className="text-md font-bold mb-2">Consumables</h5>
+            {project.resourcesRequired.consumables.map((consumable, index) => (
+              <div key={index} className="flex mb-2">
+                <input
+                  type="text"
+                  name="consumableName"
+                  value={consumable.consumableName}
+                  onChange={(e) => handleConsumableChange(e, index)}
+                  className="mt-1 p-2 border border-gray-300 rounded-md w-1/2 mr-4"
+                  placeholder="Name of Consumable"
+                />
+                <input
+                  type="text"
+                  name="consumableCost"
+                  value={consumable.consumableCost}
+                  onChange={(e) => handleConsumableChange(e, index)}
+                  className="mt-1 p-2 border border-gray-300 rounded-md w-1/2"
+                  placeholder="Cost"
+                />
+              </div>
+            ))}
+            <button
+              type="button"
+              onClick={addConsumable}
+              className="px-4 py-2 bg-blue-600 text-white rounded-md"
+            >
+              Add Consumable
+            </button>
+          </div>
+
+          {/* Services */}
+          <div className="mb-6">
+            <h5 className="text-md font-bold mb-2">Services</h5>
+            {project.resourcesRequired.services.map((service, index) => (
+              <div key={index} className="flex mb-2">
+                <input
+                  type="text"
+                  name="serviceName"
+                  value={service.serviceName}
+                  onChange={(e) => handleServiceChange(e, index)}
+                  className="mt-1 p-2 border border-gray-300 rounded-md w-1/2 mr-4"
+                  placeholder="Name of Service"
+                />
+                <input
+                  type="text"
+                  name="serviceCost"
+                  value={service.serviceCost}
+                  onChange={(e) => handleServiceChange(e, index)}
+                  className="mt-1 p-2 border border-gray-300 rounded-md w-1/2"
+                  placeholder="Cost"
+                />
+              </div>
+            ))}
+            <button
+              type="button"
+              onClick={addService}
+              className="px-4 py-2 bg-blue-600 text-white rounded-md"
+            >
+              Add Service
+            </button>
+          </div>
+
+          {/* Works */}
+          <div className="mb-6">
+            <h5 className="text-md font-bold mb-2">Works</h5>
+            {project.resourcesRequired.works.map((work, index) => (
+              <div key={index} className="flex mb-2">
+                <input
+                  type="text"
+                  name="workName"
+                  value={work.workName}
+                  onChange={(e) => handleWorkChange(e, index)}
+                  className="mt-1 p-2 border border-gray-300 rounded-md w-1/2 mr-4"
+                  placeholder="Name of Work"
+                />
+                <input
+                  type="text"
+                  name="workCost"
+                  value={work.workCost}
+                  onChange={(e) => handleWorkChange(e, index)}
+                  className="mt-1 p-2 border border-gray-300 rounded-md w-1/2"
+                  placeholder="Cost"
+                />
+              </div>
+            ))}
+            <button
+              type="button"
+              onClick={addWork}
+              className="px-4 py-2 bg-blue-600 text-white rounded-md"
+            >
+              Add Work
+            </button>
+          </div>
+        </div>
+        {/* Manpower */}
+        <div className="mb-4">
+          <h3 className="text-lg font-bold mb-2">Manpower</h3>
+
+          {/* Existing manpower fields */}
+          {manpowerFields.map((manpower, index) => (
+            <div key={index} className="flex mb-2">
+              <input
+                type="text"
+                name={`manpower[${index}].name`}
+                value={manpower.name}
+                onChange={(e) =>
+                  handleManpowerChange(index, "name", e.target.value)
+                }
+                className="w-1/3 px-3 py-2 border border-gray-300 rounded mr-2"
+                placeholder="Name"
+              />
+              <input
+                type="text"
+                name={`manpower[${index}].cost`}
+                value={manpower.cost}
+                onChange={(e) =>
+                  handleManpowerChange(index, "cost", e.target.value)
+                }
+                className="w-1/3 px-3 py-2 border border-gray-300 rounded mr-2"
+                placeholder="Cost"
+              />
+              <input
+                type="text"
+                name={`manpower[${index}].gteRequired`}
+                value={manpower.gteRequired}
+                onChange={(e) =>
+                  handleManpowerChange(index, "gteRequired", e.target.value)
+                }
+                className="w-1/3 px-3 py-2 border border-gray-300 rounded"
+                placeholder="GTE Required"
+              />
+            </div>
+          ))}
+
+          {/* Button to add more manpower fields */}
+          <button
+            type="button"
+            onClick={addManpowerField}
+            className="bg-blue-500 text-white px-4 py-2 rounded"
+          >
+            Add Manpower
+          </button>
+        </div>
+
+        {/* Budget */}
+        <div className="mb-8">
+          <h4 className="text-lg font-bold mb-4">Budget</h4>
+
+          {/* Non-Recurring */}
+          <div className="mb-6">
+            <h5 className="text-md font-bold mb-2">Non-Recurring</h5>
+            <div className="flex mb-2">
+              <input
+                type="text"
+                name="equipment"
+                value={project.budget.nonRecurring.equipment}
+                onChange={handleBudgetChange}
+                className="mt-1 p-2 border border-gray-300 rounded-md w-1/2 mr-4"
+                placeholder="Equipment Cost"
+              />
+              <input
+                type="text"
+                name="works"
+                value={project.budget.nonRecurring.works}
+                onChange={handleBudgetChange}
+                className="mt-1 p-2 border border-gray-300 rounded-md w-1/2"
+                placeholder="Works Cost"
+              />
+            </div>
+            <input
+              type="text"
+              name="nonRecurringSubTotal" // Updated field name
+              value={project.budget.nonRecurring.subTotal}
+              onChange={handleBudgetChange}
+              className="mt-1 p-2 border border-gray-300 rounded-md w-1/2"
+              placeholder="Sub-Total"
+            />
+          </div>
+
+          {/* Recurring */}
+          <div className="mb-6">
+            <h5 className="text-md font-bold mb-2">Recurring</h5>
+            <div className="flex mb-2">
+              <input
+                type="text"
+                name="travel"
+                value={project.budget.recurring.travel}
+                onChange={handleBudgetChange}
+                className="mt-1 p-2 border border-gray-300 rounded-md w-1/2 mr-4"
+                placeholder="Travel Cost"
+              />
+              <input
+                type="text"
+                name="consumable"
+                value={project.budget.recurring.consumable}
+                onChange={handleBudgetChange}
+                className="mt-1 p-2 border border-gray-300 rounded-md w-1/2"
+                placeholder="Consumable Cost"
+              />
+            </div>
+            <div className="flex mb-2">
+              <input
+                type="text"
+                name="contingency"
+                value={project.budget.recurring.contingency}
+                onChange={handleBudgetChange}
+                className="mt-1 p-2 border border-gray-300 rounded-md w-1/2 mr-4"
+                placeholder="Contingency Cost"
+              />
+              <input
+                type="text"
+                name="ORE"
+                value={project.budget.recurring.ORE}
+                onChange={handleBudgetChange}
+                className="mt-1 p-2 border border-gray-300 rounded-md w-1/2"
+                placeholder="ORE Cost"
+              />
+            </div>
+            <input
+              type="text"
+              name="recurringSubTotal" // Updated field name
+              value={project.budget.recurring.subTotal}
+              onChange={handleBudgetChange}
+              className="mt-1 p-2 border border-gray-300 rounded-md w-1/2"
+              placeholder="Sub-Total"
+            />
+          </div>
+
+          {/* Grand Total */}
+          <div>
+            <label className="flex flex-col">
+              <span className="font-bold">Grand Total:</span>
+              <input
+                type="text"
+                name="total"
+                value={project.budget.total}
+                onChange={handleBudgetChange}
+                className="mt-1 p-2 border border-gray-300 rounded-md"
+              />
+            </label>
+          </div>
+        </div>
+        {/* Submit Button */}
+        <div>
+          <button
+            type="submit"
+            className="px-4 py-2 bg-blue-600 text-white rounded-md"
+          >
+            Submit
+          </button>
+        </div>
+      </form>
+    </div>
+  );
+};
+
+export default AddProject;
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        <div className="mb-8">
+          <h4 className="text-lg font-bold mb-4">Resources Required</h4>
+
+          {/* Equipment Required */}
+          <div className="mb-6">
+            <h5 className="text-md font-bold mb-2">Equipment Required</h5>
+            {project.resourcesRequired.equipment.map((equipment, index) => (
+              <div key={index} className="flex mb-2 flex-col items-center my-4">
+                <h5>Number {index+1}</h5>
+                <div className="flex flex-row mb-2">
+                  <input
+                    type="text"
+                    name="equipmentName"
+                    value={equipment.equipmentName}
+                    onChange={(e) => handleEquipmentChange(e, index)}
+                    className="mt-1 p-2 border border-gray-300 rounded-md w-1/2 mr-2"
+                    placeholder="Name of Equipment"
+                  />
+                  <input
+                    type="text"
+                    name="equipmentCost"
+                    value={equipment.equipmentCost}
+                    onChange={(e) => handleEquipmentChange(e, index)}
+                    className="mt-1 p-2 border border-gray-300 rounded-md w-1/2"
+                    placeholder="Cost"
+                  />
+                </div>
+                <div className="flex flex-row mx-4 items-center">
+                    <input
+                      type="text"
+                      name="gteRequired"
+                      placeholder="GTE Required"
+                      checked={equipment.gteRequired}
+                      onChange={(e) => handleEquipmentChange(e, index)}
+                      className="mt-1 p-2 border border-gray-300 rounded-md w-[1/8]"
+                    />
+                    <input
+                      type="text"
+                      name="throughGeM"
+                      placeholder="Through GeM"
+                      checked={equipment.throughGeM}
+                      onChange={(e) => handleEquipmentChange(e, index)}
+                      className="mt-1 p-2 border border-gray-300 rounded-md w-[1/8]"
+                    />
+                  <input
+                    type="text"
+                    name="year1"
+                    value={equipment.year1}
+                    onChange={(e) => handleEquipmentChange(e, index)}
+                    className="mt-1 p-2 border border-gray-300 rounded-md w-[1/8]"
+                    placeholder="Year 1"
+                  />
+                  <input
+                    type="text"
+                    name="year2"
+                    value={equipment.year2}
+                    onChange={(e) => handleEquipmentChange(e, index)}
+                    className="mt-1 p-2 border border-gray-300 rounded-md w-[1/8]"
+                    placeholder="Year 2"
+                  />
+                  <input
+                    type="text"
+                    name="year3"
+                    value={equipment.year3}
+                    onChange={(e) => handleEquipmentChange(e, index)}
+                    className="mt-1 p-2 border border-gray-300 rounded-md w-[1/8]"
+                    placeholder="Year 3"
+                  />
+                </div>
+              </div>
+            ))}
+            <button
+              type="button"
+              onClick={addEquipment}
+              className="px-4 py-2 bg-blue-600 text-white rounded-md"
+            >
+              Add Equipment
+            </button>
+          </div>
+
+          {/* Consumables */}
+          <div className="mb-6">
+            <h5 className="text-md font-bold mb-2">Consumables</h5>
+            {project.resourcesRequired.consumables.map((consumable, index) => (
+              <div key={index} className="flex mb-2">
+                <input
+                  type="text"
+                  name="consumableName"
+                  value={consumable.consumableName}
+                  onChange={(e) => handleConsumableChange(e, index)}
+                  className="mt-1 p-2 border border-gray-300 rounded-md w-1/2 mr-4"
+                  placeholder="Name of Consumable"
+                />
+                <input
+                  type="text"
+                  name="consumableCost"
+                  value={consumable.consumableCost}
+                  onChange={(e) => handleConsumableChange(e, index)}
+                  className="mt-1 p-2 border border-gray-300 rounded-md w-1/2"
+                  placeholder="Cost"
+                />
+              </div>
+            ))}
+            <button
+              type="button"
+              onClick={addConsumable}
+              className="px-4 py-2 bg-blue-600 text-white rounded-md"
+            >
+              Add Consumable
+            </button>
+          </div>
+
+          {/* Services */}
+          <div className="mb-6">
+            <h5 className="text-md font-bold mb-2">Services</h5>
+            {project.resourcesRequired.services.map((service, index) => (
+              <div key={index} className="flex mb-2">
+                <input
+                  type="text"
+                  name="serviceName"
+                  value={service.serviceName}
+                  onChange={(e) => handleServiceChange(e, index)}
+                  className="mt-1 p-2 border border-gray-300 rounded-md w-1/2 mr-4"
+                  placeholder="Name of Service"
+                />
+                <input
+                  type="text"
+                  name="serviceCost"
+                  value={service.serviceCost}
+                  onChange={(e) => handleServiceChange(e, index)}
+                  className="mt-1 p-2 border border-gray-300 rounded-md w-1/2"
+                  placeholder="Cost"
+                />
+              </div>
+            ))}
+            <button
+              type="button"
+              onClick={addService}
+              className="px-4 py-2 bg-blue-600 text-white rounded-md"
+            >
+              Add Service
+            </button>
+          </div>
+
+          {/* Works */}
+          <div className="mb-6">
+            <h5 className="text-md font-bold mb-2">Works</h5>
+            {project.resourcesRequired.works.map((work, index) => (
+              <div key={index} className="flex mb-2">
+                <input
+                  type="text"
+                  name="workName"
+                  value={work.workName}
+                  onChange={(e) => handleWorkChange(e, index)}
+                  className="mt-1 p-2 border border-gray-300 rounded-md w-1/2 mr-4"
+                  placeholder="Name of Work"
+                />
+                <input
+                  type="text"
+                  name="workCost"
+                  value={work.workCost}
+                  onChange={(e) => handleWorkChange(e, index)}
+                  className="mt-1 p-2 border border-gray-300 rounded-md w-1/2"
+                  placeholder="Cost"
+                />
+              </div>
+            ))}
+            <button
+              type="button"
+              onClick={addWork}
+              className="px-4 py-2 bg-blue-600 text-white rounded-md"
+            >
+              Add Work
+            </button>
+          </div>
+        </div>

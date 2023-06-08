@@ -1,0 +1,952 @@
+{/* Budget */}
+      {/* <div className="flex flex-col space-y-2">
+        <input
+          type="text"
+          name="budget.nonRecurring.equipment.name"
+          value={budget.nonRecurring.equipment.name}
+          onChange={this.handleInputChange}
+          placeholder="Non-Recurring Equipment Name"
+          className="w-1/5"
+        />
+        <input
+          type="text"
+          name="budget.nonRecurring.equipment.cost"
+          value={budget.nonRecurring.equipment.cost}
+          onChange={this.handleInputChange}
+          placeholder="Non-Recurring Equipment Cost"
+          className="w-1/5"
+        />
+        {/* Add more input fields for nonRecurring.equipment subfields */}
+      </div> */}
+
+      <div className="flex flex-col space-y-2">
+        <input
+          type="text"
+          name="budget.nonRecurring.works.name"
+          value={budget.nonRecurring.works.name}
+          onChange={this.handleInputChange}
+          placeholder="Non-Recurring Works Name"
+          className="w-1/5"
+        />
+        <input
+          type="text"
+          name="budget.nonRecurring.works.cost"
+          value={budget.nonRecurring.works.cost}
+          onChange={this.handleInputChange}
+          placeholder="Non-Recurring Works Cost"
+          className="w-1/5"
+        />
+        {/* Add more input fields for nonRecurring.works subfields */}
+      </div>
+
+      <input
+        type="text"
+        name="budget.nonRecurring.subTotal"
+        value={budget.nonRecurring.subTotal}
+        onChange={this.handleInputChange}
+        placeholder="Non-Recurring Subtotal"
+        className="w-1/5"
+      />
+
+      <input
+        type="text"
+        name="budget.recurring.travel"
+        value={budget.recurring.travel}
+        onChange={this.handleInputChange}
+        placeholder="Recurring Travel"
+        className="w-1/5"
+      />
+      <input
+        type="text"
+        name="budget.recurring.consumable"
+        value={budget.recurring.consumable}
+        onChange={this.handleInputChange}
+        placeholder="Recurring Consumable"
+        className="w-1/5"
+      />
+      <input
+        type="text"
+        name="budget.recurring.contingency"
+        value={budget.recurring.contingency}
+        onChange={this.handleInputChange}
+        placeholder="Recurring Contingency"
+        className="w-1/5"
+      />
+      <input
+        type="text"
+        name="budget.recurring.ORE"
+        value={budget.recurring.ORE}
+        onChange={this.handleInputChange}
+        placeholder="Recurring ORE"
+        className="w-1/5"
+      />
+      <input
+        type="text"
+        name="budget.recurring.subTotal"
+        value={budget.recurring.subTotal}
+        onChange={this.handleInputChange}
+        placeholder="Recurring Subtotal"
+        className="w-1/5"
+      />
+
+      <input
+        type="text"
+        name="budget.total"
+        value={budget.total}
+        onChange={this.handleInputChange}
+        placeholder="Total Budget"
+        className="w-1/5"
+      />
+
+
+
+
+      ---------------------------------------------------------------------------------------
+
+
+
+
+      import React, { useState } from "react";
+
+class PmeProject {
+  constructor() {
+    // super(props);
+    // this.state = {
+    this.projectTitle = "";
+      this.projectNo = "";
+      this.projectInvestigator = "";
+      this.coPI = "";
+      this.teamMembers = "";
+      this.objectives = "";
+      this.timeline = ""
+      this.resourcesRequired = {
+        equipment: [
+          {
+            name: "",
+            cost: "",
+            GTERequired: "",
+            throughGeM: "",
+            year1: "",
+            year2: "",
+            year3: "",
+            indentingDate: "",
+            indenter: "",
+            indentCost: "",
+            GTEProposalDate: "",
+            GTEReceivedDate: "",
+            equipmentReceived: "",
+            inventoryDBUpdated: "",
+          },
+        ],
+        consumables: [
+          {
+            name: "",
+            cost: "",
+            GTERequired: "",
+            throughGeM: "",
+            year1: "",
+            year2: "",
+            year3: "",
+            indentingDate: "",
+            indenter: "",
+            indentCost: "",
+            GTEProposalDate: "",
+            GTEReceivedDate: "",
+            equipmentReceived: "",
+          },
+        ],
+        services: [
+          {
+            name: "",
+            cost: "",
+            GTERequired: "",
+            throughGeM: "",
+            year1: "",
+            year2: "",
+            year3: "",
+            indentingDate: "",
+            indenter: "",
+            indentCost: "",
+            GTEProposalDate: "",
+            GTEReceivedDate: "",
+            equipmentReceived: "",
+          }
+        ],
+        works: [
+          {
+            name: "",
+            cost: "",
+            GTERequired: "",
+            throughGeM: "",
+            year1: "",
+            year2: "",
+            year3: "",
+            indentingDate: "",
+            indenter: "",
+            indentCost: "",
+            GTEProposalDate: "",
+            GTEReceivedDate: "",
+            equipmentReceived: "",
+          },
+        ],
+      };
+      this.manpower = {
+        techHR: [
+          {
+            level: "PA-I",
+            cost: "",
+            justification: "",
+            year1: "",
+            year2: "",
+            year3: "",
+            interviewDate: "",
+            candidateName: "",
+            joiningDate: "",
+            leavingDate: "",
+          },
+          {
+            level: "PA-II",
+            cost: "",
+            justification: "",
+            year1: "",
+            year2: "",
+            year3: "",
+            interviewDate: "",
+            candidateName: "",
+            joiningDate: "",
+            leavingDate: "",
+          },
+          {
+            level: "PA-III",
+            cost: "",
+            justification: "",
+            year1: "",
+            year2: "",
+            year3: "",
+            interviewDate: "",
+            candidateName: "",
+            joiningDate: "",
+            leavingDate: "",
+          },
+        ],
+      };
+      this.budget = {
+        nonRecurring: {
+          equipment: {
+            name: "",
+            cost: "",
+          },
+          works: {
+            name: "",
+            cost: "",
+          },
+          subTotal: "",
+        },
+        recurring: {
+          travel: "",
+          consumable: "",
+          contingency: "",
+          ORE: "",
+          subTotal: "",
+        },
+        total: "",
+      };
+    // };
+
+    this.handleInputChange = this.handleInputChange.bind(this);
+  }
+
+  // render() {
+  //   const {
+  //     projectTitle,
+  //     projectNo,
+  //     projectInvestigator,
+  //     coPI,
+  //     teamMembers,
+  //     objectives,
+  //     timeline,
+  //     resourcesRequired,
+  //     manpower,
+  //     budget,
+  //   } = this.state;
+
+  // }
+}
+
+function AddProjectPME() {
+  // const [project, setProject] = useState(new PmeProject());
+
+  const handleInputChange = (event, index) => {
+    const target = event.target;
+    const name = target.name;
+    const value = target.value;
+
+    const [resourceKey, subKey, field] = name.split(".");
+
+    this.setState((prevState) => ({
+      ...prevState,
+      [resourceKey]: {
+        ...prevState[resourceKey],
+        [subKey]: prevState[resourceKey][subKey].map((item, i) => {
+          if (i === index) {
+            return {
+              ...item,
+              [field]: value,
+            };
+          }
+          return item;
+        }),
+      },
+    }));
+  };
+
+  return (
+    <div className="flex flex-col space-y-4">
+      <div className="flex flex-col space-y-2">
+        <label>
+          Project Title:
+          <input
+            type="text"
+            name="projectTitle"
+            value={this.projectTitle}
+            onChange={this.handleInputChange}
+            placeholder="Project Title"
+            className="w-1/5"
+          />
+        </label>
+        <label>
+          Project Number:
+          <input
+            type="text"
+            name="projectNo"
+            value={this.projectNo}
+            onChange={this.handleInputChange}
+            placeholder="Project Number"
+            className="w-1/5"
+          />
+        </label>
+        <label>
+          Project Investigator:
+          <input
+            type="text"
+            name="projectInvestigator"
+            value={this.projectInvestigator}
+            onChange={this.handleInputChange}
+            placeholder="Project Investigator"
+            className="w-1/5"
+          />
+        </label>
+        <label>
+          Co-PI:
+          <input
+            type="text"
+            name="coPI"
+            value={this.coPI}
+            onChange={this.handleInputChange}
+            placeholder="Co-PI"
+            className="w-1/5"
+          />
+        </label>
+        <label>
+          Team Members:
+          <input
+            type="text"
+            name="teamMembers"
+            value={this.teamMembers}
+            onChange={this.handleInputChange}
+            placeholder="Team Members"
+            className="w-1/5"
+          />
+        </label>
+        <label>
+          Objectives:
+          <textarea
+            name="objectives"
+            value={this.objectives}
+            onChange={this.handleInputChange}
+            placeholder="Objectives"
+            className="w-1/5"
+          />
+        </label>
+        <label>
+          Timeline:
+          <input
+            type="text"
+            name="timeline"
+            value={this.timeline}
+            onChange={this.handleInputChange}
+            placeholder="Timeline"
+            className="w-1/5"
+          />
+        </label>
+      </div>
+
+      {/* Resources Required */}
+      {/* Equipment */}
+      {this.resourcesRequired.equipment.map((equipment, index) => (
+        <div key={index} className="flex flex-col space-y-2">
+          <label>
+            Equipment Name:
+            <input
+              type="text"
+              name={`resourcesRequired.equipment[${index}].name`}
+              value={equipment.name}
+              onChange={this.handleInputChange}
+              placeholder="Equipment Name"
+              className="w-1/5"
+            />
+          </label>
+          <label>
+            Equipment Cost:
+            <input
+              type="text"
+              name={`resourcesRequired.equipment[${index}].cost`}
+              value={equipment.cost}
+              onChange={this.handleInputChange}
+              placeholder="Equipment Cost"
+              className="w-1/5"
+            />
+          </label>
+          <label>
+            GTE Required:
+            <input
+              type="text"
+              name={`resourcesRequired.equipment[${index}].GTERequired`}
+              value={equipment.GTERequired}
+              onChange={this.handleInputChange}
+              placeholder="GTE Required"
+              className="w-1/5"
+            />
+          </label>
+          <label>
+            Through GeM:
+            <input
+              type="text"
+              name={`resourcesRequired.equipment[${index}].throughGeM`}
+              value={equipment.throughGeM}
+              onChange={this.handleInputChange}
+              placeholder="Through GeM"
+              className="w-1/5"
+            />
+          </label>
+          <label>
+            Year 1:
+            <input
+              type="text"
+              name={`resourcesRequired.equipment[${index}].year1`}
+              value={equipment.year1}
+              onChange={this.handleInputChange}
+              placeholder="Year 1"
+              className="w-1/5"
+            />
+          </label>
+          <label>
+            Year 2:
+            <input
+              type="text"
+              name={`resourcesRequired.equipment[${index}].year2`}
+              value={equipment.year2}
+              onChange={this.handleInputChange}
+              placeholder="Year 2"
+              className="w-1/5"
+            />
+          </label>
+          <label>
+            Year 3:
+            <input
+              type="text"
+              name={`resourcesRequired.equipment[${index}].year3`}
+              value={equipment.year3}
+              onChange={this.handleInputChange}
+              placeholder="Year 3"
+              className="w-1/5"
+            />
+          </label>
+          <label>
+            Indenting Date:
+            <input
+              type="text"
+              name={`resourcesRequired.equipment[${index}].indentingDate`}
+              value={equipment.indentingDate}
+              onChange={this.handleInputChange}
+              placeholder="Indenting Date"
+              className="w-1/5"
+            />
+          </label>
+          <label>
+            Indenter:
+            <input
+              type="text"
+              name={`resourcesRequired.equipment[${index}].indenter`}
+              value={equipment.indenter}
+              onChange={this.handleInputChange}
+              placeholder="Indenter"
+              className="w-1/5"
+            />
+          </label>
+          <label>
+            Indent Cost:
+            <input
+              type="text"
+              name={`resourcesRequired.equipment[${index}].indentCost`}
+              value={equipment.indentCost}
+              onChange={this.handleInputChange}
+              placeholder="Indent Cost"
+              className="w-1/5"
+            />
+          </label>
+          <label>
+            GTE Proposal Date:
+            <input
+              type="text"
+              name={`resourcesRequired.equipment[${index}].GTEProposalDate`}
+              value={equipment.GTEProposalDate}
+              onChange={this.handleInputChange}
+              placeholder="GTE Proposal Date"
+              className="w-1/5"
+            />
+          </label>
+          <label>
+            GTE Received Date:
+            <input
+              type="text"
+              name={`resourcesRequired.equipment[${index}].GTEReceivedDate`}
+              value={equipment.GTEReceivedDate}
+              onChange={this.handleInputChange}
+              placeholder="GTE Received Date"
+              className="w-1/5"
+            />
+          </label>
+          <label>
+            Equipment Received:
+            <input
+              type="text"
+              name={`resourcesRequired.equipment[${index}].equipmentReceived`}
+              value={equipment.equipmentReceived}
+              onChange={this.handleInputChange}
+              placeholder="Equipment Received"
+              className="w-1/5"
+            />
+          </label>
+        </div>
+      ))}
+
+      {this.resourcesRequired.consumables.map((consumable, index) => (
+        <div key={index} className="flex flex-col space-y-2">
+          <label>
+            Consumable Name:
+            <input
+              type="text"
+              name={`resourcesRequired.consumables[${index}].name`}
+              value={consumable.name}
+              onChange={this.handleInputChange}
+              placeholder="Consumable Name"
+              className="w-1/5"
+            />
+          </label>
+          <label>
+            Cost:
+            <input
+              type="text"
+              name={`resourcesRequired.consumables[${index}].cost`}
+              value={consumable.cost}
+              onChange={this.handleInputChange}
+              placeholder="Cost"
+              className="w-1/5"
+            />
+          </label>
+          <label>
+            GTE Required:
+            <input
+              type="text"
+              name={`resourcesRequired.consumables[${index}].GTERequired`}
+              value={consumable.GTERequired}
+              onChange={this.handleInputChange}
+              placeholder="GTE Required"
+              className="w-1/5"
+            />
+          </label>
+          <label>
+            Through GeM:
+            <input
+              type="text"
+              name={`resourcesRequired.consumables[${index}].throughGeM`}
+              value={consumable.throughGeM}
+              onChange={this.handleInputChange}
+              placeholder="Through GeM"
+              className="w-1/5"
+            />
+          </label>
+          <label>
+            Year 1:
+            <input
+              type="text"
+              name={`resourcesRequired.consumables[${index}].year1`}
+              value={consumable.year1}
+              onChange={this.handleInputChange}
+              placeholder="Year 1"
+              className="w-1/5"
+            />
+          </label>
+          <label>
+            Year 2:
+            <input
+              type="text"
+              name={`resourcesRequired.consumables[${index}].year2`}
+              value={consumable.year2}
+              onChange={this.handleInputChange}
+              placeholder="Year 2"
+              className="w-1/5"
+            />
+          </label>
+          <label>
+            Year 3:
+            <input
+              type="text"
+              name={`resourcesRequired.consumables[${index}].year3`}
+              value={consumable.year3}
+              onChange={this.handleInputChange}
+              placeholder="Year 3"
+              className="w-1/5"
+            />
+          </label>
+          <label>
+            Indenting Date:
+            <input
+              type="text"
+              name={`resourcesRequired.consumables[${index}].indentingDate`}
+              value={consumable.indentingDate}
+              onChange={this.handleInputChange}
+              placeholder="Indenting Date"
+              className="w-1/5"
+            />
+          </label>
+          <label>
+            Indenter:
+            <input
+              type="text"
+              name={`resourcesRequired.consumables[${index}].indenter`}
+              value={consumable.indenter}
+              onChange={this.handleInputChange}
+              placeholder="Indenter"
+              className="w-1/5"
+            />
+          </label>
+          <label>
+            Indent Cost:
+            <input
+              type="text"
+              name={`resourcesRequired.consumables[${index}].indentCost`}
+              value={consumable.indentCost}
+              onChange={this.handleInputChange}
+              placeholder="Indent Cost"
+              className="w-1/5"
+            />
+          </label>
+          <label>
+            GTE Proposal Date:
+            <input
+              type="text"
+              name={`resourcesRequired.consumables[${index}].GTEProposalDate`}
+              value={consumable.GTEProposalDate}
+              onChange={this.handleInputChange}
+              placeholder="GTE Proposal Date"
+              className="w-1/5"
+            />
+          </label>
+          <label>
+            GTE Received Date:
+            <input
+              type="text"
+              name={`resourcesRequired.consumables[${index}].GTEReceivedDate`}
+              value={consumable.GTEReceivedDate}
+              onChange={this.handleInputChange}
+              placeholder="GTE Received Date"
+              className="w-1/5"
+            />
+          </label>
+          <label>
+            Equipment Received:
+            <input
+              type="text"
+              name={`resourcesRequired.consumables[${index}].equipmentReceived`}
+              value={consumable.equipmentReceived}
+              onChange={this.handleInputChange}
+              placeholder="Equipment Received"
+              className="w-1/5"
+            />
+          </label>
+        </div>
+      ))}
+
+      {this.resourcesRequired.services.map((service, index) => (
+        <div key={index} className="flex flex-col space-y-2">
+          <label>
+            Service Name:
+            <input
+              type="text"
+              placeholder="Service Name"
+              value={service.name}
+              onChange={(e) => handleInputChange(e, index)}
+            />
+          </label>
+          <label>
+            Cost:
+            <input
+              type="text"
+              placeholder="Cost"
+              value={service.cost}
+              onChange={(e) => handleInputChange(e, index)}
+            />
+          </label>
+          <label>
+            GTE Required:
+            <input
+              type="text"
+              placeholder="GTE Required"
+              value={service.GTERequired}
+              onChange={(e) => handleInputChange(e, index)}
+            />
+          </label>
+          <label>
+            Through GeM:
+            <input
+              type="text"
+              placeholder="Through GeM"
+              value={service.throughGeM}
+              onChange={(e) => handleInputChange(e, index)}
+            />
+          </label>
+          <label>
+            Year 1:
+            <input
+              type="text"
+              placeholder="Year 1"
+              value={service.year1}
+              onChange={(e) => handleInputChange(e, index)}
+            />
+          </label>
+          <label>
+            Year 2:
+            <input
+              type="text"
+              placeholder="Year 2"
+              value={service.year2}
+              onChange={(e) => handleInputChange(e, index)}
+            />
+          </label>
+          <label>
+            Year 3:
+            <input
+              type="text"
+              placeholder="Year 3"
+              value={service.year3}
+              onChange={(e) => handleInputChange(e, index)}
+            />
+          </label>
+          <label>
+            Indenting Date:
+            <input
+              type="text"
+              placeholder="Indenting Date"
+              value={service.indentingDate}
+              onChange={(e) => handleInputChange(e, index)}
+            />
+          </label>
+          <label>
+            Indenter:
+            <input
+              type="text"
+              placeholder="Indenter"
+              value={service.indenter}
+              onChange={(e) => handleInputChange(e, index)}
+            />
+          </label>
+          <label>
+            Indent Cost:
+            <input
+              type="text"
+              placeholder="Indent Cost"
+              value={service.indentCost}
+              onChange={(e) => handleInputChange(e, index)}
+            />
+          </label>
+          <label>
+            GTE Proposal Date:
+            <input
+              type="text"
+              placeholder="GTE Proposal Date"
+              value={service.GTEProposalDate}
+              onChange={(e) => handleInputChange(e, index)}
+            />
+          </label>
+          <label>
+            GTE Received Date:
+            <input
+              type="text"
+              placeholder="GTE Received Date"
+              value={service.GTEReceivedDate}
+              onChange={(e) => handleInputChange(e, index)}
+            />
+          </label>
+          <label>
+            Equipment Received:
+            <input
+              type="text"
+              placeholder="Equipment Received"
+              value={service.equipmentReceived}
+              onChange={(e) => handleInputChange(e, index)}
+            />
+          </label>
+        </div>
+      ))}
+
+      {this.resourcesRequired.works.map((work, index) => (
+        <div key={index} className="flex flex-col space-y-2">
+          <label>
+            Work Name:
+            <input
+              type="text"
+              placeholder="Work Name"
+              value={work.name}
+              onChange={(e) => handleInputChange(e, index)}
+            />
+          </label>
+          <label>
+            Cost:
+            <input
+              type="text"
+              placeholder="Cost"
+              value={work.cost}
+              onChange={(e) => handleInputChange(e, index)}
+            />
+          </label>
+          <label>
+            GTE Required:
+            <input
+              type="text"
+              placeholder="GTE Required"
+              value={work.GTERequired}
+              onChange={(e) => handleInputChange(e, index)}
+            />
+          </label>
+          <label>
+            Through GeM:
+            <input
+              type="text"
+              placeholder="Through GeM"
+              value={work.throughGeM}
+              onChange={(e) => handleInputChange(e, index)}
+            />
+          </label>
+          <label>
+            Year 1:
+            <input
+              type="text"
+              placeholder="Year 1"
+              value={work.year1}
+              onChange={(e) => handleInputChange(e, index)}
+            />
+          </label>
+          <label>
+            Year 2:
+            <input
+              type="text"
+              placeholder="Year 2"
+              value={work.year2}
+              onChange={(e) => handleInputChange(e, index)}
+            />
+          </label>
+          <label>
+            Year 3:
+            <input
+              type="text"
+              placeholder="Year 3"
+              value={work.year3}
+              onChange={(e) => handleInputChange(e, index)}
+            />
+          </label>
+          <label>
+            Indenting Date:
+            <input
+              type="text"
+              placeholder="Indenting Date"
+              value={work.indentingDate}
+              onChange={(e) => handleInputChange(e, index)}
+            />
+          </label>
+          <label>
+            Indenter:
+            <input
+              type="text"
+              placeholder="Indenter"
+              value={work.indenter}
+              onChange={(e) => handleInputChange(e, index)}
+            />
+          </label>
+          <label>
+            Indent Cost:
+            <input
+              type="text"
+              placeholder="Indent Cost"
+              value={work.indentCost}
+              onChange={(e) => handleInputChange(e, index)}
+            />
+          </label>
+          <label>
+            GTE Proposal Date:
+            <input
+              type="text"
+              placeholder="GTE Proposal Date"
+              value={work.GTEProposalDate}
+              onChange={(e) => handleInputChange(e, index)}
+            />
+          </label>
+          <label>
+            GTE Received Date:
+            <input
+              type="text"
+              placeholder="GTE Received Date"
+              value={work.GTEReceivedDate}
+              onChange={(e) => handleInputChange(e, index)}
+            />
+          </label>
+          <label>
+            Equipment Received:
+            <input
+              type="text"
+              placeholder="Equipment Received"
+              value={work.equipmentReceived}
+              onChange={(e) => handleInputChange(e, index)}
+            />
+          </label>
+        </div>
+      ))}
+
+      {/* Manpower */}
+      {this.manpower.techHR.map((tech, index) => (
+        <div key={index} className="flex flex-col space-y-2">
+          <input
+            type="text"
+            name={`manpower.techHR[${index}].level`}
+            value={tech.level}
+            onChange={this.handleInputChange}
+            placeholder="Tech HR Level"
+            className="w-1/5"
+          />
+          <input
+            type="text"
+            name={`manpower.techHR[${index}].cost`}
+            value={tech.cost}
+            onChange={this.handleInputChange}
+            placeholder="Tech HR Cost"
+            className="w-1/5"
+          />
+          {/* Add more input fields for techHR subfields */}
+        </div>
+      ))}
+    </div>
+  );
+}
+
+export default AddProjectPME;
