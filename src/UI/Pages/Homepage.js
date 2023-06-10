@@ -11,7 +11,7 @@ import Repost from "./Repost";
 import Error from "./Error";
 import Dashboard from "./Dashboard";
 import AddProject from "./AddProject";
-import AddProjectPME from "./AddProjectPME";
+// import AddProjectPME from "./AddProjectPME";
 import admins from "../../loginPage/UserData";
 function Homepage() {
   const [navigator, setNavigator] = useState("Dashboard");
@@ -57,8 +57,6 @@ function Homepage() {
             <Repost />
           ) : navigator === "Add Project" ? (
             <AddProject />
-          ) : navigator === "Add Project (PME)" ? (
-            <AddProjectPME />
           ) : (
             <Error />
           )}

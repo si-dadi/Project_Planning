@@ -282,7 +282,7 @@ const AddProject = () => {
       });
 
       // Set up the fetch request
-      const url = "http://localhost:5984/projects_pme";
+      const url = `http://localhost:5984/${process.env.REACT_APP_COUCHDB_DBNAME}`;
       const headers = new Headers();
       headers.append("Content-Type", "application/json");
       headers.append(
@@ -642,7 +642,7 @@ const AddProject = () => {
                       )
                     }
                     className="w-1/3 px-3 py-2 border border-gray-300 rounded"
-                    placeholder="Interview Date"
+                    placeholder="I  nterview Date"
                   />
                   <input
                     type="text"
