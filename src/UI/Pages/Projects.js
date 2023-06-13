@@ -1,5 +1,7 @@
 import React, { useState, useEffect } from "react";
 import admins from "../../loginPage/UserData";
+import EditProject from "./EditProject";
+
 const ProjectList = () => {
   const [projects, setProjects] = useState([]);
   const [selectedProject, setSelectedProject] = useState(null);
@@ -33,7 +35,6 @@ const ProjectList = () => {
               });
               if (docResponse.ok) {
                 const docData = await docResponse.json();
-                // console.log(docData);
                 return docData;
               } else {
                 console.error(
@@ -44,7 +45,6 @@ const ProjectList = () => {
             })
           );
           setProjects(projectDocs.filter((doc) => doc !== null));
-          console.log(projects);
         } else {
           const errorText = await response.text();
           console.error(
@@ -60,15 +60,12 @@ const ProjectList = () => {
 
     function isAdminUser(e) {
       if (admins[e]) {
-        console.log("true", e);
         return true;
       } else {
-        // console.log("false", e);
         return false;
       }
     }
     setIsAdmin(isAdminUser(localStorage.getItem("email")));
-
   }, []);
 
   const handleProjectClick = (project) => {
@@ -81,11 +78,12 @@ const ProjectList = () => {
     setShowModal(false);
   };
 
-  // const isAdmin = admins.hasOwnProperty(localStorage.getItem("email"));
-
   return (
     <div className="flex flex-col mx-auto">
-      <h1 className="font-bold text-xl">My Projects</h1>
+      <div className="flex flex-row items-center align-middle justify-center my-8">
+        <h1 className="font-bold text-xl">My Projects</h1>
+      </div>
+
       {projects.map((project, index) => (
         <div
           key={index}
@@ -98,8 +96,8 @@ const ProjectList = () => {
               </p>
               <h2>
                 <strong>Title:</strong>{" "}
-                {project.projectTitle.charAt(0).toUpperCase() +
-                  project.projectTitle.slice(1)}
+                {project.projectTitle?.charAt(0).toUpperCase() +
+                  project.projectTitle?.slice(1)}
               </h2>
             </div>
             <div className="flex flex-row mx-6">
@@ -161,8 +159,8 @@ const ProjectList = () => {
             </p>
             <p className="text-base leading-relaxed text-gray-500 mb-4">
               Title:{" "}
-              {selectedProject.projectTitle.charAt(0).toUpperCase() +
-                selectedProject.projectTitle.slice(1)}
+              {selectedProject.projectTitle?.charAt(0).toUpperCase() +
+                selectedProject.projectTitle?.slice(1)}
             </p>
             <p className="text-base leading-relaxed text-gray-500 mb-4">
               Investigators:{" "}
@@ -215,7 +213,7 @@ const ProjectList = () => {
                             key={index}
                             className="text-left border px-4 py-2 text-sm"
                           >
-                            {key.charAt(0).toUpperCase() + key.slice(1)}
+                            {key?.charAt(0).toUpperCase() + key?.slice(1)}
                           </th>
                         );
                       })}
@@ -281,7 +279,7 @@ const ProjectList = () => {
                             key={index}
                             className="text-left border px-4 py-2 text-sm"
                           >
-                            {key.charAt(0).toUpperCase() + key.slice(1)}
+                            {key?.charAt(0).toUpperCase() + key?.slice(1)}
                           </th>
                         );
                       })}
@@ -346,7 +344,7 @@ const ProjectList = () => {
                             key={index}
                             className="text-left border px-4 py-2 text-sm"
                           >
-                            {key.charAt(0).toUpperCase() + key.slice(1)}
+                            {key?.charAt(0).toUpperCase() + key?.slice(1)}
                           </th>
                         );
                       })}
@@ -411,7 +409,7 @@ const ProjectList = () => {
                             key={index}
                             className="text-left border px-4 py-2 text-sm"
                           >
-                            {key.charAt(0).toUpperCase() + key.slice(1)}
+                            {key?.charAt(0).toUpperCase() + key?.slice(1)}
                           </th>
                         );
                       })}
@@ -535,13 +533,21 @@ const ProjectList = () => {
                   )}
                 </tbody>
               </table>
+              <p>Total: {selectedProject.budget.total}</p>
             </div>
-            <button
-              className="bg-red-400 px-3 py-2 rounded mt-4 ml-auto"
-              onClick={closeModal}
-            >
-              Close
-            </button>
+            <div className="">
+              <button
+                className="bg-red-400 px-3 py-2 rounded mt-4 mx-10"
+                onClick={closeModal}
+              >
+                Close
+              </button>
+              {isAdmin && <EditProject
+                projectToEdit={selectedProject}
+                id={selectedProject._id}
+                rev={selectedProject._rev}
+              />}
+            </div>
           </div>
         </div>
       )}

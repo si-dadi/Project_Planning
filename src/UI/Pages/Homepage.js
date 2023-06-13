@@ -55,7 +55,7 @@ function Homepage() {
             <Settings />
           ) : navigator === "Repost" ? (
             <Repost />
-          ) : navigator === "Add Project" ? (
+          ) : navigator === "Add Projects" || "Add/Edit Projects" ? (
             <AddProject />
           ) : (
             <Error />

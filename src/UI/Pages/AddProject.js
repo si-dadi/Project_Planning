@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import admins from "../../loginPage/UserData";
+
 class Project {
   constructor(isAdmin) {
     this.projectTitle = "";
@@ -138,10 +139,8 @@ const AddProject = () => {
 
   function isAdminUser(e) {
     if (admins[e]) {
-      // console.log("true", e);
       return true;
     } else {
-      // console.log("false", e);
       return false;
     }
   }
@@ -154,18 +153,6 @@ const AddProject = () => {
       setProject((prevProject) => ({
         ...prevProject,
         [name]: newValue,
-      }));
-    } else if (name.startsWith("budget.")) {
-      const [category, subCategory] = name.split(".").slice(1);
-      setProject((prevProject) => ({
-        ...prevProject,
-        budget: {
-          ...prevProject.budget,
-          [category]: {
-            ...prevProject.budget[category],
-            [subCategory]: value,
-          },
-        },
       }));
     } else {
       setProject((prevProject) => ({
@@ -183,7 +170,7 @@ const AddProject = () => {
         name: "",
         cost: "",
         gteRequired: "",
-        throughGem: "",
+        throughGeM: "",
         year1: "",
         year2: "",
         year3: "",
@@ -192,7 +179,7 @@ const AddProject = () => {
         indentCost: "",
         gteProposalDate: "",
         gteReceivedDate: "",
-        resourceReceived: "",
+        [resourceType + "Received"]: "",
         inventoryDBUpdated: "",
       };
 
@@ -204,6 +191,21 @@ const AddProject = () => {
             ...prevProject.resourcesRequired[resourceType],
             newResource,
           ],
+        },
+      };
+    });
+  };
+
+  const removeLastResource = (resourceType) => {
+    setProject((prevProject) => {
+      const updatedResources = [...prevProject.resourcesRequired[resourceType]];
+      updatedResources.pop(); // Remove the last resource from the array
+
+      return {
+        ...prevProject,
+        resourcesRequired: {
+          ...prevProject.resourcesRequired,
+          [resourceType]: updatedResources,
         },
       };
     });
@@ -244,21 +246,26 @@ const AddProject = () => {
     setManpowerFields(updatedFields);
   };
 
-  const handleBudgetChange = (e) => {
-    const { name, value } = e.target;
+  const handleBudgetChange = (event) => {
+    const { name, value } = event.target;
+    const [category, subCategory] = name.split('.'); // Split the name into category and subCategory
+  
     setProject((prevProject) => ({
       ...prevProject,
       budget: {
-        nonRecurring: {
-          ...(prevProject.budget?.nonRecurring || {}),
-          [name]: value,
+        ...prevProject.budget,
+        [category]: {
+          ...prevProject.budget[category],
+          [subCategory]: value,
         },
-        recurring: {
-          ...(prevProject.budget?.recurring || {}),
-          [name]: value,
-        },
+        total: calculateTotalBudget({ ...prevProject.budget, [category]: { ...prevProject.budget[category], [subCategory]: value } }),
       },
     }));
+  };
+  const calculateTotalBudget = (budget) => {
+    const nonRecurringTotal = Object.values(budget.nonRecurring).reduce((acc, val) => acc + Number(val), 0);
+    const recurringTotal = Object.values(budget.recurring).reduce((acc, val) => acc + Number(val), 0);
+    return nonRecurringTotal + recurringTotal;
   };
 
   const [formSubmitted, setFormSubmitted] = useState(false);
@@ -267,7 +274,7 @@ const AddProject = () => {
     event.preventDefault();
 
     if (formSubmitted) {
-      console.log("Form has already been submitted.");
+      alert("Form has already been submitted.");
       return;
     }
 
@@ -312,9 +319,11 @@ const AddProject = () => {
 
   return (
     <div className="mt-8 flex flex-col items-center">
-      <h2 className="text-2xl font-bold mb-8 flex flex-row mx-auto">
-        Add New Project
-      </h2>
+      <div className="flex flex-row items-center align-middle justify-center">
+        <h2 className="text-2xl font-bold mb-8 flex flex-row mx-auto">
+          Add Project
+        </h2>
+      </div>
       <form onSubmit={handleSubmit} id="myForm">
         <div className="mb-8 flex flex-row mx-auto">
           <label className="flex flex-col flex-1 mb-4 mx-6">
@@ -325,6 +334,7 @@ const AddProject = () => {
               value={project.projectTitle}
               onChange={handleChange}
               className="mt-1 p-2 border border-gray-300 rounded-md"
+              required
             />
           </label>
           <label className="flex flex-col">
@@ -335,6 +345,7 @@ const AddProject = () => {
               value={project.projectNo}
               onChange={handleChange}
               className="mt-1 p-2 border border-gray-300 rounded-md"
+              required
             />
           </label>
         </div>
@@ -412,7 +423,7 @@ const AddProject = () => {
           <div key={resourceType}>
             <div className="mb-6">
               <h5 className="text-md font-bold mb-2">
-                {resourceType.charAt(0).toUpperCase() + resourceType.slice(1)}{" "}
+                {resourceType?.charAt(0).toUpperCase() + resourceType?.slice(1)}{" "}
                 Required
               </h5>
               {project.resourcesRequired[resourceType].map(
@@ -425,8 +436,8 @@ const AddProject = () => {
                     <div className="flex flex-row mb-2">
                       <input
                         type="text"
-                        name="resourceName"
-                        value={resource.resourceName}
+                        name="name"
+                        value={resource.name}
                         onChange={(e) =>
                           handleResourceChange(e, index, resourceType)
                         }
@@ -435,8 +446,8 @@ const AddProject = () => {
                       />
                       <input
                         type="text"
-                        name="resourceCost"
-                        value={resource.resourceCost}
+                        name="cost"
+                        value={resource.cost}
                         onChange={(e) =>
                           handleResourceChange(e, index, resourceType)
                         }
@@ -580,10 +591,17 @@ const AddProject = () => {
               <button
                 type="button"
                 onClick={() => addResource(resourceType)}
-                className="px-4 py-2 bg-blue-600 text-white rounded-md hover:scale-110 duration-300"
+                className="px-4 py-2 mx-4 bg-blue-600 text-white rounded-md hover:scale-110 duration-300"
               >
                 Add{" "}
-                {resourceType.charAt(0).toUpperCase() + resourceType.slice(1)}
+                {resourceType?.charAt(0).toUpperCase() + resourceType?.slice(1)}
+              </button>
+              <button
+                type="button"
+                onClick={() => removeLastResource(resourceType)}
+                className="px-4 py-2 mx-4 bg-red-600 text-white rounded-md hover:scale-110 duration-300"
+              >
+                Remove Last
               </button>
             </div>
           </div>
@@ -642,7 +660,7 @@ const AddProject = () => {
                       )
                     }
                     className="w-1/3 px-3 py-2 border border-gray-300 rounded"
-                    placeholder="I  nterview Date"
+                    placeholder="Interview Date"
                   />
                   <input
                     type="text"
@@ -695,6 +713,7 @@ const AddProject = () => {
 
         {/* Budget */}
         <div>
+          <h3 className="text-lg font-bold mb-2">Budget</h3>
           <div className="mb-6">
             <h5 className="text-md font-bold mb-2">Non-Recurring</h5>
             <div className="flex mb-2">

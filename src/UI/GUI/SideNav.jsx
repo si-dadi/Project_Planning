@@ -23,6 +23,7 @@ export default function SideNav({ setNavigator, setSearchTerm }) {
     localStorage.clear();
     window.location.reload();
   };
+  const userIsAdmin = admins.hasOwnProperty(localStorage.getItem("email"));
 
   const menus = [
     {
@@ -36,7 +37,7 @@ export default function SideNav({ setNavigator, setSearchTerm }) {
       OnClick: onClickAction,
     },
     {
-      name: "Add Project",
+      name: "Add Projects",
       icon: MdAssignmentAdd,
       OnClick: onClickAction,
     },
@@ -89,7 +90,6 @@ export default function SideNav({ setNavigator, setSearchTerm }) {
     setNavigator(activeTab);
   }, [activeTab]);
 
-  const userIsAdmin = admins.hasOwnProperty(localStorage.getItem("email"));
 
   return (
     <div
