@@ -11,11 +11,14 @@ import Repost from "./Repost";
 import Error from "./Error";
 import Dashboard from "./Dashboard";
 import AddProject from "./AddProject";
+import Search from "./Search";
 // import AddProjectPME from "./AddProjectPME";
 import admins from "../../loginPage/UserData";
+import Logs from "./Logs";
 function Homepage() {
   const [navigator, setNavigator] = useState("Dashboard");
   const [searchTerm, setSearchTerm] = useState("");
+  const [filteredProjects, setFilteredProjects] = useState([]);
 
   useEffect(() => {
     admins[localStorage.getItem("email")]
@@ -36,31 +39,44 @@ function Homepage() {
             setNavigator={setNavigator}
             searchTerm={searchTerm}
             setSearchTerm={setSearchTerm}
+            filteredProjects={filteredProjects}
+            setFilteredProjects={setFilteredProjects}
           />
         </div>
-        <div className="flex-1 bg-[#F2F2F2] overflow-y-auto p-4 ml-1/6">
-          {navigator === "Dashboard" ? (
-            <Dashboard />
-          ) : navigator === "Projects" ? (
-            <Projects />
-          ) : navigator === "My Tasks" ? (
-            <MyTasks />
-          ) : navigator === "Calendar" ? (
-            <Calendar />
-          ) : navigator === "Equipment" ? (
-            <Equipment />
-          ) : navigator === "Consumables" ? (
-            <Consumables />
-          ) : navigator === "Settings" ? (
-            <Settings />
-          ) : navigator === "Repost" ? (
-            <Repost />
-          ) : navigator === "Add Projects" || "Add/Edit Projects" ? (
-            <AddProject />
-          ) : (
-            <Error />
-          )}
-        </div>
+        {searchTerm === "" ? (
+          <div className="flex-1 bg-[#F2F2F2] overflow-y-auto p-4 ml-1/6">
+            {navigator === "Dashboard" ? (
+              <Dashboard />
+            ) : navigator === "Projects" ? (
+              <Projects />
+            ) : navigator === "My Tasks" ? (
+              <MyTasks />
+            ) : navigator === "Calendar" ? (
+              <Calendar />
+            ) : navigator === "Equipment" ? (
+              <Equipment />
+            ) : navigator === "Consumables" ? (
+              <Consumables />
+            ) : navigator === "Settings" ? (
+              <Settings />
+            ) : navigator === "Repost" ? (
+              <Repost />
+            ) : navigator === "Add Projects" ? (
+              <AddProject />
+            ) : navigator === "Logs" ? (
+              <Logs />
+            ) : (
+              <Error />
+            )}
+          </div>
+        ) : (
+          <Search
+            searchTerm={searchTerm}
+            setSearchTerm={setSearchTerm}
+            filteredProjects={filteredProjects}
+            setFilteredProjects={setFilteredProjects}
+          />
+        )}
       </div>
     </div>
   );

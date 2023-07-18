@@ -5,6 +5,8 @@ class Project {
   constructor(isAdmin) {
     this.projectTitle = "";
     this.projectNo = "";
+    this.projectType = "";
+    this.sponsoringAgency = "";
     this.projectInvestigator = "";
     this.coPI = "";
     this.teamMembers = [];
@@ -154,13 +156,18 @@ const AddProject = () => {
         ...prevProject,
         [name]: newValue,
       }));
+    } else if (name === "projectType") {
+      setProject((prevProject) => ({
+        ...prevProject,
+        projectType: value,
+      }));
     } else {
       setProject((prevProject) => ({
         ...prevProject,
         [name]: value,
       }));
     }
-  };
+  }; 
 
   const resourceTypes = ["equipment", "consumables", "services", "works"];
 
@@ -248,8 +255,8 @@ const AddProject = () => {
 
   const handleBudgetChange = (event) => {
     const { name, value } = event.target;
-    const [category, subCategory] = name.split('.'); // Split the name into category and subCategory
-  
+    const [category, subCategory] = name.split("."); // Split the name into category and subCategory
+
     setProject((prevProject) => ({
       ...prevProject,
       budget: {
@@ -258,13 +265,22 @@ const AddProject = () => {
           ...prevProject.budget[category],
           [subCategory]: value,
         },
-        total: calculateTotalBudget({ ...prevProject.budget, [category]: { ...prevProject.budget[category], [subCategory]: value } }),
+        total: calculateTotalBudget({
+          ...prevProject.budget,
+          [category]: { ...prevProject.budget[category], [subCategory]: value },
+        }),
       },
     }));
   };
   const calculateTotalBudget = (budget) => {
-    const nonRecurringTotal = Object.values(budget.nonRecurring).reduce((acc, val) => acc + Number(val), 0);
-    const recurringTotal = Object.values(budget.recurring).reduce((acc, val) => acc + Number(val), 0);
+    const nonRecurringTotal = Object.values(budget.nonRecurring).reduce(
+      (acc, val) => acc + Number(val),
+      0
+    );
+    const recurringTotal = Object.values(budget.recurring).reduce(
+      (acc, val) => acc + Number(val),
+      0
+    );
     return nonRecurringTotal + recurringTotal;
   };
 
@@ -348,6 +364,35 @@ const AddProject = () => {
               required
             />
           </label>
+        </div>
+
+        <div className="justify-center my-4">
+          <div>
+            <h3 className="my-2 font-bold">Project Type: </h3>
+            <select
+              onChange={handleChange}
+              name="projectType"
+              value={project.projectType}
+              className="mx-4 px-3 py-2 mb-6"
+            >
+              <option>CSIR</option>
+              <option>Sponsored</option>
+              <option>Industry</option>
+            </select>
+          </div>
+          <div>
+          <label className="flex flex-col mb-6 mx-6 justify-center">
+            <span className="font-bold">Sponsoring Agency:</span>
+            <input
+              type="text"
+              name="sponsoringAgency"
+              value={project.sponsoringAgency}
+              onChange={handleChange}
+              className="mt-1 p-2 border border-gray-300 rounded-md"
+              required
+            />
+          </label>
+          </div>
         </div>
 
         <div className="mb-8 flex flex-row mx-auto ">

@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { HiMenuAlt3, HiLogout } from "react-icons/hi";
-import { MdDashboard } from "react-icons/md";
+import { MdDashboard, MdUpdate } from "react-icons/md";
 import { AiFillSetting } from "react-icons/ai";
 import { FaPenSquare } from "react-icons/fa";
 import ceeriLogo from "../../assets/images/Central_Electronics_Engineering_Research_Institute_Logo.png";
@@ -79,8 +79,11 @@ export default function SideNav({ setNavigator, setSearchTerm }) {
     },
   ];
 
-  const adminMenus = [
-
+  const adminMenus = [{
+    name: "Logs",
+    icon: MdUpdate,
+    OnClick: onClickAction,
+    margin: true,}
   ];
 
   const [open, setOpen] = useState(true);

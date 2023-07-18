@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { Disclosure } from "@headlessui/react";
 import { BsPersonCircle } from "react-icons/bs";
 import { IoMdNotifications } from "react-icons/io";
-import Searchbar from "./SearchBar";
+import SearchBar from "./SearchBar";
 import ceeriLogo from "../../assets/images/Central_Electronics_Engineering_Research_Institute_Logo.png";
 
 const navigation = [];
@@ -11,17 +11,19 @@ function classNames(...classes) {
   return classes.filter(Boolean).join(" ");
 }
 
-export default function Example({ setNavigator, searchTerm, setSearchTerm }) {
+export default function Example({ setNavigator, searchTerm, setSearchTerm, filteredProjects, setFilteredProjects }) {
   return (
     <Disclosure as="nav" className="bg-[#e7e2e1]">
       {({ open }) => (
         <>
-          <div className="mx-auto ml-5 px-2 sm:px-6 lg:px-8 sticky top-0 z-[100]">
-            <div className="relative flex h-18 items-center ">
+          <div className=" min-h-[1/5] mx-auto ml-5 px-2 sm:px-6 lg:px-8 sticky top-0 z-[100]">
+            <div className="relative flex h-18 items-center">
               <div className="relative items-center mx-auto w-1/3">
-                <Searchbar
+                <SearchBar
                   searchTerm={searchTerm}
                   setSearchTerm={setSearchTerm}
+                  filteredProjects={filteredProjects}
+                  setFilteredProjects={setFilteredProjects}
                 />
               </div>
 
